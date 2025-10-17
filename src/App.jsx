@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import AuthPage from './pages/AuthPage';
+import AdminPage from './pages/AdminPage';
 import ApiTester from './components/ApiTester';
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="/test-api" element={<ApiTester />} />
         <Route path="*" element={<Navigate to="/auth" replace />} />
       </Routes>
