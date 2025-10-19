@@ -194,7 +194,7 @@ const BulkUpload = () => {
           >
             {/* Instrucciones */}
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
-              <h3 className="text-lg font-semibold text-blue-900 mb-4">📋 Instrucciones</h3>
+              <h3 className="text-lg font-semibold text-blue-900 mb-4">Instrucciones</h3>
               <div className="grid md:grid-cols-2 gap-4 text-sm text-blue-800">
                 <div>
                   <p className="font-medium mb-2">Formato del archivo Excel:</p>
@@ -209,7 +209,6 @@ const BulkUpload = () => {
                   <ul className="space-y-1">
                     <li>• .xlsx (Excel 2007+)</li>
                     <li>• .xls (Excel 97-2003)</li>
-                    <li>• Máximo 1000 usuarios por archivo</li>
                   </ul>
                 </div>
               </div>

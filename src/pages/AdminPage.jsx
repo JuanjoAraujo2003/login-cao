@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import UserManagement from '../components/admin/UserManagement';
 import BulkUpload from '../components/admin/BulkUpload';
-import { Users, Upload, UserPlus, Settings } from 'lucide-react';
+import { Users, Upload, UserPlus } from 'lucide-react';
 
 const AdminPage = () => {
   const [activeModule, setActiveModule] = useState('users');
@@ -28,13 +28,6 @@ const AdminPage = () => {
       icon: UserPlus,
       description: 'Agregar nuevo usuario',
       color: 'from-purple-500 to-purple-600'
-    },
-    {
-      id: 'settings',
-      title: 'Configuración',
-      icon: Settings,
-      description: 'Configurar el sistema',
-      color: 'from-orange-500 to-orange-600'
     }
   ];
 
@@ -46,8 +39,6 @@ const AdminPage = () => {
         return <BulkUpload />;
       case 'create-user':
         return <div className="p-8 text-center text-gray-600">Módulo de crear usuario en desarrollo...</div>;
-      case 'settings':
-        return <div className="p-8 text-center text-gray-600">Módulo de configuración en desarrollo...</div>;
       default:
         return <UserManagement />;
     }
@@ -82,7 +73,7 @@ const AdminPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Module Navigation */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}

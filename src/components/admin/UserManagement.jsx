@@ -24,11 +24,11 @@ const UserManagement = () => {
 
   // Datos de ejemplo
   const mockUsers = [
-    { id: 1, email: 'admin@udla.edu.ec', cedula: '1234567890', status: 'active', role: 'admin', createdAt: '2024-01-15' },
-    { id: 2, email: 'doctor1@udla.edu.ec', cedula: '0987654321', status: 'active', role: 'doctor', createdAt: '2024-01-16' },
-    { id: 3, email: 'secretaria@udla.edu.ec', cedula: '1122334455', status: 'inactive', role: 'secretary', createdAt: '2024-01-17' },
-    { id: 4, email: 'estudiante1@udla.edu.ec', cedula: '5566778899', status: 'active', role: 'student', createdAt: '2024-01-18' },
-    { id: 5, email: 'coordinador@udla.edu.ec', cedula: '9988776655', status: 'active', role: 'coordinator', createdAt: '2024-01-19' },
+    { id: 1, email: 'admin@udla.edu.ec', cedula: '1234567890', status: 'active', role: 'admin', createdAt: '2025-01-15' },
+    { id: 2, email: 'freddy.perez.ramirez@udla.edu.ec', cedula: '0987654321', status: 'active', role: 'docente', createdAt: '2025-01-16' },
+    { id: 3, email: 'nancy.soto@udla.edu.ec', cedula: '1122334455', status: 'inactive', role: 'usuario', createdAt: '2025-01-17' },
+    { id: 4, email: 'juan.perez@udla.edu.ec', cedula: '5566778899', status: 'active', role: 'estudiante', createdAt: '2025-01-18' },
+    { id: 5, email: 'cindy.risol@udla.edu.ec', cedula: '9988776655', status: 'active', role: 'coordinador', createdAt: '2025-01-19' },
   ];
 
   useEffect(() => {
