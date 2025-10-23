@@ -27,9 +27,9 @@ export const UsersProvider = ({ children }) => {
       id: 2,
       email: 'freddy.perez.ramirez@udla.edu.ec',
       cedula: '0987654321',
-      name: 'Dr. Juan Pérez',
+      name: 'Juan Pérez',
       status: 'active',
-      role: 'doctor',
+      role: 'profesor',
       createdAt: '2025-10-10',
       source: 'manual'
     },
@@ -39,7 +39,7 @@ export const UsersProvider = ({ children }) => {
       cedula: '1122334455',
       name: 'Roberto Aguilar',
       status: 'inactive',
-      role: 'secretary',
+      role: 'coordinator',
       createdAt: '2025-10-20',
       source: 'manual'
     }
@@ -52,7 +52,7 @@ export const UsersProvider = ({ children }) => {
       cedula: user.cedula,
       name: extractNameFromEmail(user.email),
       status: 'active',
-      role: 'user',
+      role: 'student',
       createdAt: new Date().toISOString().split('T')[0],
       source: 'bulk-upload'
     }));

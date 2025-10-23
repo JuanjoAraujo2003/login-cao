@@ -57,8 +57,7 @@ const UserManagement = () => {
   const getRoleColor = (role) => {
     const colors = {
       admin: 'bg-purple-100 text-purple-800',
-      doctor: 'bg-blue-100 text-blue-800',
-      secretary: 'bg-green-100 text-green-800',
+      profesor: 'bg-blue-100 text-blue-800',
       student: 'bg-yellow-100 text-yellow-800',
       coordinator: 'bg-indigo-100 text-indigo-800'
     };
@@ -68,11 +67,9 @@ const UserManagement = () => {
   const getRoleText = (role) => {
     const roles = {
       admin: 'Administrador',
-      doctor: 'Doctor',
-      secretary: 'Secretaria',
+      profesor: 'Profesor',
       student: 'Estudiante',
-      coordinator: 'Coordinador',
-      user: 'Usuario'
+      coordinator: 'Coordinador'
     };
     return roles[role] || role;
   };
