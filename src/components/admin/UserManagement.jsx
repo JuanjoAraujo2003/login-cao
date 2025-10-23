@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useUsers } from '../../contexts/UsersContext';
 import { 
   Search, 
   Filter, 
@@ -10,11 +11,12 @@ import {
   UserCheck, 
   UserX,
   Plus,
-  RefreshCw
+  RefreshCw,
+  Upload
 } from 'lucide-react';
 
 const UserManagement = () => {
-  const [users, setUsers] = useState([]);
+  const { users, toggleUserStatus, deleteUser } = useUsers();
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('all');
@@ -22,28 +24,14 @@ const UserManagement = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showActions, setShowActions] = useState(null);
 
-  // Datos de ejemplo
-  const mockUsers = [
-    { id: 1, email: 'admin@udla.edu.ec', cedula: '1234567890', status: 'active', role: 'admin', createdAt: '2025-01-15' },
-    { id: 2, email: 'freddy.perez.ramirez@udla.edu.ec', cedula: '0987654321', status: 'active', role: 'docente', createdAt: '2025-01-16' },
-    { id: 3, email: 'nancy.soto@udla.edu.ec', cedula: '1122334455', status: 'inactive', role: 'usuario', createdAt: '2025-01-17' },
-    { id: 4, email: 'juan.perez@udla.edu.ec', cedula: '5566778899', status: 'active', role: 'estudiante', createdAt: '2025-01-18' },
-    { id: 5, email: 'cindy.risol@udla.edu.ec', cedula: '9988776655', status: 'active', role: 'coordinador', createdAt: '2025-01-19' },
-  ];
-
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
   useEffect(() => {
     filterUsers();
   }, [users, searchTerm, selectedFilter]);
 
   const loadUsers = async () => {
     setIsLoading(true);
-    // Simular carga de datos
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setUsers(mockUsers);
+    // En producción, aquí haríamos fetch de la API
+    await new Promise(resolve => setTimeout(resolve, 500));
     setIsLoading(false);
   };
 
@@ -83,21 +71,14 @@ const UserManagement = () => {
       doctor: 'Doctor',
       secretary: 'Secretaria',
       student: 'Estudiante',
-      coordinator: 'Coordinador'
+      coordinator: 'Coordinador',
+      user: 'Usuario'
     };
     return roles[role] || role;
   };
 
-  const toggleUserStatus = (userId) => {
-    setUsers(users.map(user => 
-      user.id === userId 
-        ? { ...user, status: user.status === 'active' ? 'inactive' : 'active' }
-        : user
-    ));
-  };
-
-  const deleteUser = (userId) => {
-    setUsers(users.filter(user => user.id !== userId));
+  const handleDeleteUser = (userId) => {
+    deleteUser(userId);
     setShowActions(null);
   };
 
@@ -177,7 +158,7 @@ const UserManagement = () => {
 
       {/* Estadísticas */}
       <motion.div 
-        className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -221,6 +202,20 @@ const UserManagement = () => {
             </div>
           </div>
         </div>
+
+        <div className="bg-purple-50 border border-purple-200 rounded-xl p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-purple-600">Carga Masiva</p>
+              <p className="text-3xl font-bold text-purple-900">
+                {users.filter(u => u.source === 'bulk-upload').length}
+              </p>
+            </div>
+            <div className="bg-purple-500 rounded-full p-3">
+              <Upload className="h-6 w-6 text-white" />
+            </div>
+          </div>
+        </div>
       </motion.div>
 
       {/* Tabla de usuarios */}
@@ -259,9 +254,19 @@ const UserManagement = () => {
                       transition={{ duration: 0.3, delay: index * 0.05 }}
                     >
                       <td className="py-4 px-6">
-                        <div>
-                          <p className="font-semibold text-gray-900">{user.email}</p>
-                          <p className="text-sm text-gray-500 font-mono">{user.cedula}</p>
+                        <div className="flex items-center gap-3">
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <p className="font-semibold text-gray-900">{user.email}</p>
+                              {user.source === 'bulk-upload' && (
+                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800" title="Usuario subido por carga masiva">
+                                  <Upload className="h-3 w-3" />
+                                  Bulk
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-sm text-gray-500 font-mono">{user.cedula}</p>
+                          </div>
                         </div>
                       </td>
                       <td className="py-4 px-6">
@@ -341,7 +346,7 @@ const UserManagement = () => {
                                   )}
                                 </button>
                                 <button
-                                  onClick={() => deleteUser(user.id)}
+                                  onClick={() => handleDeleteUser(user.id)}
                                   className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-left transition-colors duration-150 text-red-600 border-t border-gray-100"
                                 >
                                   <Trash2 className="h-4 w-4" />

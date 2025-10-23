@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import UserManagement from '../components/admin/UserManagement';
 import BulkUpload from '../components/admin/BulkUpload';
+import { UsersProvider } from '../contexts/UsersContext';
 import { Users, Upload, UserPlus } from 'lucide-react';
 
 const AdminPage = () => {
@@ -36,7 +37,7 @@ const AdminPage = () => {
       case 'users':
         return <UserManagement />;
       case 'bulk-upload':
-        return <BulkUpload />;
+        return <BulkUpload onUploadSuccess={() => setActiveModule('users')} />;
       case 'create-user':
         return <div className="p-8 text-center text-gray-600">Módulo de crear usuario en desarrollo...</div>;
       default:
@@ -45,7 +46,8 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <UsersProvider>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Header */}
       <motion.header 
         className="bg-white shadow-lg border-b border-gray-200"
@@ -133,6 +135,7 @@ const AdminPage = () => {
         </motion.div>
       </div>
     </div>
+    </UsersProvider>
   );
 };
 

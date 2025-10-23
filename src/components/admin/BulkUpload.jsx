@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDropzone } from 'react-dropzone';
 import * as XLSX from 'xlsx';
+import { useUsers } from '../../contexts/UsersContext';
 import { 
   Upload, 
   FileSpreadsheet, 
@@ -14,7 +15,8 @@ import {
   RefreshCw
 } from 'lucide-react';
 
-const BulkUpload = () => {
+const BulkUpload = ({ onUploadSuccess }) => {
+  const { addBulkUsers } = useUsers();
   const [uploadedData, setUploadedData] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [uploadResults, setUploadResults] = useState(null);
@@ -106,15 +108,26 @@ const BulkUpload = () => {
     setStep('processing');
     
     try {
-      // Simular proceso de carga (en producción sería una llamada a la API)
+      // TODO: Integrar con backend - POST /api/admin/bulk-upload
+      // const response = await fetch('/api/admin/bulk-upload', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ users: uploadedData })
+      // });
+      // const results = await response.json();
+      
+      // SIMULACIÓN - remover en producción
       await new Promise(resolve => setTimeout(resolve, 3000));
       
-      // Simular algunos resultados
+      // Agregar usuarios al contexto (local state)
+      const addedUsers = addBulkUsers(uploadedData);
+      
+      // Calcular resultados reales
       const results = {
         total: uploadedData.length,
-        successful: Math.floor(uploadedData.length * 0.85),
-        failed: Math.floor(uploadedData.length * 0.15),
-        duplicates: Math.floor(uploadedData.length * 0.1)
+        successful: addedUsers.length,
+        failed: 0,
+        duplicates: 0
       };
       
       setUploadResults(results);
@@ -521,17 +534,32 @@ const BulkUpload = () => {
                 </motion.div>
               </div>
 
-              <motion.button
-                onClick={resetUpload}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg transition-colors duration-200"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 }}
-              >
-                Nueva Carga
-              </motion.button>
+              <div className="flex gap-4 justify-center">
+                <motion.button
+                  onClick={resetUpload}
+                  className="bg-gray-600 hover:bg-gray-700 text-white px-8 py-3 rounded-lg transition-colors duration-200"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 }}
+                >
+                  Nueva Carga
+                </motion.button>
+                
+                <motion.button
+                  onClick={() => onUploadSuccess && onUploadSuccess()}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg transition-colors duration-200 flex items-center gap-2"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                >
+                  <Users className="h-5 w-5" />
+                  Ver Usuarios
+                </motion.button>
+              </div>
             </div>
           </motion.div>
         )}
